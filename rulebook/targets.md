@@ -2,45 +2,37 @@
 
 ## Target Frameworks
 
-| Language | Target Version | Notes |
-|----------|---------------|-------|
+| Language or Tool | Target Version | Notes |
+|------------------|----------------|-------|
 | Java | 17 (LTS) | Java 8 and Java 11 are end-of-life for internal use |
-| Spring Boot | 3.x (latest stable) | All Spring Boot 2.x applications must be upgraded |
-| Maven | 3.9+ | Gradle acceptable only where already in use |
+| Spring Boot | 3.x (latest stable) | Upgrade all Spring Boot 2.x applications |
+| Maven | 3.9+ | Gradle is acceptable where already in use |
 
 ## Target Compute Services
 
 | Platform | Use When |
 |----------|----------|
 | Azure Kubernetes Service (AKS) | Default for all services |
-| Azure App Service | Simple web apps only: under 5,000 LOC with no async processing |
-
-## Target Data Services
-
-<!-- No target data services specified in source document -->
-
-## Target Integration Services
-
-<!-- No target integration services specified in source document -->
+| Azure App Service | Simple web applications under 5,000 lines of code with no asynchronous processing |
 
 ## Target Libraries
 
-| Source | Target | Notes |
-|--------|--------|-------|
-| `RestTemplate` | `com.acme.mesh.ServiceMesh` | Deprecated; no mesh integration |
-| `WebClient` | `com.acme.mesh.ServiceMesh` | Bypasses mesh layer |
-| `FeignClient` | `com.acme.mesh.ServiceMesh` | Bypasses mesh layer |
-| `OkHttp` (direct HTTP client) | `com.acme.mesh.ServiceMesh` | Bypasses mesh layer |
-| `Apache HttpClient` (direct HTTP client) | `com.acme.mesh.ServiceMesh` | Bypasses mesh layer |
-| SLF4J (`@Slf4j`, `LoggerFactory.getLogger`) | `com.acme.logging.InternalLogger` | Does not integrate with internal trace context propagation |
-| Log4j (any version) | `com.acme.logging.InternalLogger` | Does not integrate with internal trace context propagation |
-| Logback (direct usage) | `com.acme.logging.InternalLogger` | Does not integrate with internal trace context propagation |
-| `java.util.logging` | `com.acme.logging.InternalLogger` | Does not integrate with internal trace context propagation |
-| `System.out.println` / `System.err.println` | `com.acme.logging.InternalLogger` | Not structured; not correlated |
+| Category | Source | Target | Notes |
+|----------|--------|--------|-------|
+| Service communication | `RestTemplate` | `com.acme.mesh.ServiceMesh` | `RestTemplate` is deprecated and has no mesh integration |
+| Service communication | `WebClient` | `com.acme.mesh.ServiceMesh` | `WebClient` bypasses the mesh layer |
+| Service communication | `FeignClient` | `com.acme.mesh.ServiceMesh` | `FeignClient` bypasses the mesh layer |
+| Service communication | OkHttp | `com.acme.mesh.ServiceMesh` | Direct HTTP clients bypass the mesh layer |
+| Service communication | Apache HttpClient | `com.acme.mesh.ServiceMesh` | Direct HTTP clients bypass the mesh layer |
+| Logging | SLF4J | `com.acme.logging.InternalLogger` | Includes `@Slf4j` and `LoggerFactory.getLogger(...)` |
+| Logging | Log4j | `com.acme.logging.InternalLogger` | All versions |
+| Logging | Direct Logback usage | `com.acme.logging.InternalLogger` | Third-party logging frameworks do not integrate with internal trace context propagation |
+| Logging | `java.util.logging` | `com.acme.logging.InternalLogger` | Third-party logging frameworks do not integrate with internal trace context propagation |
+| Logging | `System.out.println` / `System.err.println` | `com.acme.logging.InternalLogger` | Use structured logging |
 
 ## Target Artifacts
 
 | Artifact | Location | Notes |
 |----------|----------|-------|
-| Container base image (build stage) | `mcr.microsoft.com/openjdk/jdk:17-ubuntu` | Used for build-time image layer |
-| Container base image (runtime stage) | `mcr.microsoft.com/openjdk/jdk:17-distroless` | Used for final runtime image layer |
+| Build container base image | `mcr.microsoft.com/openjdk/jdk:17-ubuntu` | Build stage |
+| Runtime container base image | `mcr.microsoft.com/openjdk/jdk:17-distroless` | Runtime stage |

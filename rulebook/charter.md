@@ -4,50 +4,29 @@
 
 | Field | Value |
 |-------|-------|
-| Playbook Name | Acme Corp Modernization Playbook |
-| Version | 1.0.0 |
-| Changelog | Initial version derived from internal-tech-guidelines.md (last updated 2025-01-15) |
+| Rulebook Name | Acme Corp Internal Technology Guidelines |
+| Document Owner | Platform Engineering Team |
+| Last Updated | 2025-01-15 |
+| Classification | Internal |
 
 ## Scope
 
 ### Covered Applications and Languages
 
-All Java applications in the **Payments** and **Commerce** portfolios. Modernization target deadline: **Q4 2026**.
-
-### Application Types
-
-**Included:**
-
-- Java-based backend services and APIs in the Payments and Commerce portfolios
-
-**Excluded:**
-
-- Applications outside the Payments and Commerce portfolios (not covered by these guidelines)
-
-### Custom Libraries
-
-| Library | Artifact ID | Purpose |
-|---------|-------------|---------|
-| ServiceMesh SDK | `com.acme.mesh.ServiceMesh` | Mandatory service-to-service communication (circuit breaking, mTLS, tracing, canary routing) |
-| Result wrapper | `com.acme.commons.Result` | Explicit error handling — wraps success or failure values |
-| InternalLogger | `com.acme.logging.InternalLogger` | Sole approved logging framework with trace correlation and structured JSON output |
+All Java applications in the Payments and Commerce portfolios must be modernized by Q4 2026.
 
 ### Constraints
 
-- Build tool must be Maven 3.9+; Gradle is acceptable only where already in use.
 - Java 8 and Java 11 are end-of-life for internal use.
-- Spring Boot 2.x applications must be upgraded to Spring Boot 3.x.
-
-## Modernization Strategy (6R Guidelines)
-
-| Application Type | Default Strategy | Override Conditions |
-|------------------|-----------------|---------------------|
-| Java service / API (general) | Replatform → AKS | None — AKS is the default for all services |
-| Simple Java web app | Replatform → Azure App Service | Applies only when: application is under 5,000 LOC **and** has no async processing |
+- Spring Boot 2.x applications must be upgraded.
+- Maven 3.9+ is required. Gradle is acceptable where already in use.
+- Azure Kubernetes Service is the default deployment platform for all services.
+- Azure App Service is permitted only for simple web applications under 5,000 lines of code with no asynchronous processing.
 
 ## Principles
 
-- All service-to-service communication must go through the internal ServiceMesh SDK — direct HTTP calls bypassing the mesh are prohibited.
-- All application code must use the `Result<T>` pattern for error handling; throwing exceptions for business logic flow control is prohibited.
-- All applications must use `InternalLogger` as the sole logging framework to ensure log correlation across the observability stack.
-- Sensitive configuration values (credentials, API keys, connection strings) must be externalized to Azure Key Vault; hardcoded secrets are prohibited.
+- Route all service-to-service communication through `com.acme.mesh.ServiceMesh`.
+- Use `com.acme.commons.Result<T>` for explicit application error handling.
+- Use `com.acme.logging.InternalLogger` as the sole logging framework.
+- Externalize application configuration and store sensitive values in Azure Key Vault.
+- Use Azure AD with OAuth 2.0 / OIDC for user-facing authentication and Managed Identity for service-to-service authentication.
