@@ -13,13 +13,13 @@
 
 ### Covered Applications and Languages
 
-All Java applications in the Payments and Commerce portfolios must be modernized by Q4 2026.
+Java applications in the Payments and Commerce portfolios must be modernized by Q4 2026.
 
 ### Constraints
 
 - Java 8 and Java 11 are end-of-life for internal use.
 - Spring Boot 2.x applications must be upgraded.
-- Gradle is acceptable where already in use.
+- Gradle is acceptable only where already in use.
 - Azure App Service is limited to simple web applications under 5,000 lines of code with no asynchronous processing.
 
 ## Modernization Strategy (6R Guidelines)
@@ -35,6 +35,7 @@ All Java applications in the Payments and Commerce portfolios must be modernized
 - Route all service-to-service communication through the internal ServiceMesh SDK.
 - Use explicit `Result<T>` error handling for application code.
 - Use InternalLogger as the sole logging framework.
-- Externalize application configuration and protect sensitive values with Azure Key Vault.
+- Externalize application configuration.
+- Store sensitive configuration in Azure Key Vault.
 - Use Azure AD for user-facing authentication and Managed Identity for service-to-service authentication.
 - Apply portfolio-specific and organization-wide compliance controls.

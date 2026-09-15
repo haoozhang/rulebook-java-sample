@@ -43,7 +43,6 @@ Approved target technologies for Acme Corp Java modernization.
 | Logging | Direct Logback usage | `com.acme.logging.InternalLogger` | InternalLogger is the sole logging framework |
 | Logging | `java.util.logging` | `com.acme.logging.InternalLogger` | InternalLogger is the sole logging framework |
 | Logging | `System.out.println` and `System.err.println` | `com.acme.logging.InternalLogger` | InternalLogger is the sole logging framework |
-| Secrets management | Sensitive values in application configuration, environment variables, or source code | Azure Key Vault via Spring Cloud Azure Key Vault starter or Managed Identity | Applies to credentials, API keys, and connection strings |
 | Authentication | JAAS | Azure AD with OAuth 2.0 / OIDC | Must be migrated during modernization |
 | Authentication | LDAP | Azure AD with OAuth 2.0 / OIDC | Must be migrated during modernization |
 

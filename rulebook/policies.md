@@ -12,7 +12,7 @@ Enforceable standards and hard boundaries for Acme Corp Java modernization.
 
 ### Secrets Management
 
-- Application configuration must be externalized.
+- Application configuration should be externalized.
 - Credentials, API keys, and connection strings must be stored in Azure Key Vault.
 - Azure Key Vault must be accessed through the Spring Cloud Azure Key Vault starter or Managed Identity.
 
@@ -35,6 +35,10 @@ Enforceable standards and hard boundaries for Acme Corp Java modernization.
 | PCI-DSS | Required for applications in the Payments portfolio |
 | SOC 2 | Required for all applications |
 
+### Data Classification
+
+Restricted data must be encrypted at rest with customer-managed keys.
+
 ## Guardrails (Hard Boundaries)
 
 ### Prohibited Technologies
@@ -47,7 +51,7 @@ Enforceable standards and hard boundaries for Acme Corp Java modernization.
 | `RestTemplate` | `com.acme.mesh.ServiceMesh` |
 | `WebClient` | `com.acme.mesh.ServiceMesh` |
 | `FeignClient` | `com.acme.mesh.ServiceMesh` |
-| OkHttp, Apache HttpClient, and other direct HTTP client libraries for service-to-service communication | `com.acme.mesh.ServiceMesh` |
+| OkHttp, Apache HttpClient, and other direct HTTP clients for service-to-service communication | `com.acme.mesh.ServiceMesh` |
 | SLF4J, including `@Slf4j` and `LoggerFactory.getLogger(...)` | `com.acme.logging.InternalLogger` |
 | Log4j | `com.acme.logging.InternalLogger` |
 | Direct Logback usage | `com.acme.logging.InternalLogger` |
@@ -78,7 +82,6 @@ Every modernized application must include:
 - `com.acme.mesh.ServiceMesh` for all service-to-service communication.
 - `com.acme.commons.Result<T>` for application error handling.
 - `com.acme.logging.InternalLogger` as the sole logging framework.
-- Externalized application configuration.
 - Azure Key Vault for credentials, API keys, and connection strings.
 - Azure AD with OAuth 2.0 / OIDC for user-facing authentication.
 - Managed Identity for service-to-service authentication.
@@ -102,7 +105,7 @@ Every modernized application must include:
 | Service communication | All service-to-service calls use `com.acme.mesh.ServiceMesh` |
 | Error handling | Application code uses `com.acme.commons.Result<T>` and does not use exceptions for business-logic flow control |
 | Logging | Application uses only `com.acme.logging.InternalLogger` |
-| Configuration | Configuration is externalized and sensitive values are stored in Azure Key Vault |
+| Sensitive configuration | Credentials, API keys, and connection strings are stored in Azure Key Vault |
 | Authentication | User-facing authentication uses Azure AD with OAuth 2.0 / OIDC and service authentication uses Managed Identity |
 | Transport security | All traffic uses TLS 1.2 or later |
 | Data encryption | Data at rest is encrypted and Restricted data uses customer-managed keys |
